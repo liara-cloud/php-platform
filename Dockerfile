@@ -9,14 +9,16 @@ sysvsem sysvshm wddx xsl opcache zip"
 
 FROM thecodingmachine/php:7.2-v2-apache
 
-COPY --chown=docker:docker . /var/www/html/
+ENV ROOT=/var/www/html
 
-RUN composer install \
+ONBUILD COPY . /var/www/html/
+
+ONBUILD RUN if [ -f $ROOT/composer.json ]; then \
+  composer install \
     --no-dev \
     --no-interaction \
     --prefer-dist \
     --optimize-autoloader \
     --ansi \
-    --no-scripts
-
-USER root
+    --no-scripts; \
+fi
