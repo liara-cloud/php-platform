@@ -9,7 +9,10 @@ shmop soap sysvmsg \
 apcu mysqli pdo_mysql \
 sysvsem sysvshm wddx xsl opcache zip"
 
-ENV ROOT=/var/www/html
+ENV ROOT=/var/www/html \
+    COMPOSER_ALLOW_SUPERUSER=1
+
+USER root
 
 ONBUILD COPY . /var/www/html/
 
