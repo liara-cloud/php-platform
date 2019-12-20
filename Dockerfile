@@ -10,11 +10,11 @@ apcu mysqli pdo_mysql \
 sysvsem sysvshm wddx xsl opcache zip"
 
 ENV ROOT=/var/www/html \
-    COMPOSER_ALLOW_SUPERUSER=1
+    COMPOSER_ALLOW_SUPERUSER=1 \
+    APACHE_RUN_USER=www-data \
+    APACHE_RUN_GROUP=www-data
 
-USER root
-
-ONBUILD COPY . /var/www/html/
+ONBUILD COPY --chown=www-data:www-data . /var/www/html/
 
 ONBUILD RUN if [ -f $ROOT/composer.json ]; then \
   composer install \
