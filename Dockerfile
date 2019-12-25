@@ -14,7 +14,9 @@ ENV ROOT=/var/www/html \
     APACHE_RUN_USER=www-data \
     APACHE_RUN_GROUP=www-data
 
-ONBUILD COPY --chown=www-data:www-data . /var/www/html/
+USER root
+
+ONBUILD COPY . $ROOT
 
 ONBUILD RUN if [ -f $ROOT/composer.json ]; then \
   composer install \
@@ -24,4 +26,4 @@ ONBUILD RUN if [ -f $ROOT/composer.json ]; then \
     --optimize-autoloader \
     --ansi \
     --no-scripts; \
-fi
+fi && chown -R www-data:www-data $ROOT
