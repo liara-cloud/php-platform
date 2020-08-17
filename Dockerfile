@@ -27,3 +27,8 @@ ONBUILD RUN if [ -f $ROOT/composer.json ]; then \
     --ansi \
     --no-scripts; \
 fi && chown -R www-data:www-data $ROOT
+
+COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+
+ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
+CMD ["apache2-foreground"]
