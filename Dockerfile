@@ -28,16 +28,18 @@ ENV ROOT=/var/www/html \
     APACHE_RUN_USER=www-data \
     APACHE_RUN_GROUP=www-data
 
+COPY lib/* /usr/local/lib/liara/
+
 ONBUILD COPY . $ROOT
 
+ONBUILD ARG __PHP_MIRROR=true
+ONBUILD ARG __PHP_MIRRORURL
+ONBUILD ENV __PHP_MIRROR=${__PHP_MIRROR}
+ONBUILD ENV __PHP_MIRRORURL=${__PHP_MIRRORURL}
+
 ONBUILD RUN if [ -f $ROOT/composer.json ]; then \
-  composer install \
-    --no-dev \
-    --no-interaction \
-    --prefer-dist \
-    --optimize-autoloader \
-    --ansi \
-    --no-scripts; \
+  chmod +x /usr/local/lib/liara/*.sh; \
+  /usr/local/lib/liara/configure.sh; \
 fi && chown -R www-data:www-data $ROOT
 
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
