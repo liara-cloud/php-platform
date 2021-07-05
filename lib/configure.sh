@@ -2,7 +2,6 @@
 
 if [ "$__PHP_MIRROR" = "true" ]; then
   echo '> Using mirror: ' $__PHP_MIRRORURL
-  composer config secure-http false
   composer config -g repo.packagist false
   composer config -g repo.liara composer $__PHP_MIRRORURL
 fi
